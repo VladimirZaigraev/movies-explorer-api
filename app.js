@@ -32,8 +32,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
   origin: [
     'http://localhost:3001',
-    'https://zaigraev.nomoredomains.work',
-    'http://zaigraev.nomoredomains.work',
   ],
   methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'origin', 'Authorization', 'Cookie'],
@@ -68,7 +66,7 @@ app.use(errorHandler); // централизованный обработчик
 async function main() {
   try {
     console.log('Try to coonect to mongodb');
-    await mongoose.connect('mongodb://localhost:27017/mestodb', {
+    await mongoose.connect('mongodb://localhost:27017/movies', {
       useNewUrlParser: true,
     });
   } catch (err) {
