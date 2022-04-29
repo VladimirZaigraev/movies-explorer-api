@@ -1,36 +1,26 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const isURL = require('validator/lib/isURL');
 
-const cardSchema = new mongoose.Schema({
-  contry: {
+const movieSchema = new Schema({
+  country: {
     type: String,
     required: [true, 'Поле "coutnry" должно быть заполнено'],
-    minlength: 2,
-    maxlength: 30,
   },
   director: {
     type: String,
     required: [true, 'Поле "director" должно быть заполнено'],
-    minlength: 2,
-    maxlength: 30,
   },
   duration: {
     type: Number,
     required: [true, 'Поле "duration" должно быть заполнено'],
-    minlength: 2,
-    maxlength: 30,
   },
   year: {
     type: String,
     required: [true, 'Поле "year" должно быть заполнено'],
-    minlength: 4,
-    maxlength: 8,
   },
   description: {
     type: String,
     required: [true, 'Поле "description" должно быть заполнено'],
-    minlength: 1,
-    maxlength: 30,
   },
   image: {
     type: String,
@@ -57,30 +47,22 @@ const cardSchema = new mongoose.Schema({
     },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String, // ??
     required: [true, 'Поле "owner" должно быть заполнено'],
     ref: 'user',
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     required: [true, 'Поле "movieId" должно быть заполнено'],
   },
   nameRU: {
     type: String,
     required: [true, 'Поле "nameRu" должно быть заполнено'],
-    minlength: 2,
-    maxlength: 30,
   },
   nameEN: {
     type: String,
     required: [true, 'Поле "nameEN" должно быть заполнено'],
-    minlength: 2,
-    maxlength: 30,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
   },
 });
 
-module.exports = mongoose.model('card', cardSchema);
+module.exports = model('movie', movieSchema);

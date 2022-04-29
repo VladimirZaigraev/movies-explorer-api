@@ -1,11 +1,11 @@
 /* eslint-disable func-names */
 /* eslint-disable new-cap */
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     minlength: 2,
@@ -47,4 +47,4 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     });
 };
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = model('user', userSchema);
