@@ -70,7 +70,7 @@ async function main() {
       useNewUrlParser: true,
     });
   } catch (err) {
-    console.log(err);
+    console.log('Error', err);
   }
 
   console.log('Connected');

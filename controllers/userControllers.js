@@ -43,30 +43,10 @@ const createUser = (req, res, next) => {
     });
 };
 
-// // проверка по id
-// const getUserById = async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-
-//     const user = await User.findById(userId)
-//       .orFail(() => {
-//         throw new NotFoundError('Пользователь по указанному _id не найден.');
-//       });
-//     res.send(user);
-//   } catch (err) {
-//     // console.log(err);
-//     if (err.name === 'CastError') {
-//       next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
-//     } else {
-//       next(err);
-//     }
-//   }
-// };
-
 // получение данных о пользователе
 const getUserMe = (req, res, next) => {
   const userId = req.user._id;
-  console.log('getUserMe', req);
+  // console.log('getUserMe', req);
   User.findById(userId)
     .then((user) => {
       if (!user) {
@@ -81,7 +61,7 @@ const getUserMe = (req, res, next) => {
 // обновление пользователя
 const updateUser = async (req, res, next) => {
   try {
-    console.log('updateUser', req.body);
+    // console.log('updateUser', req.body);
     const { name, email } = req.body;
     const userId = req.user._id;
 
@@ -100,7 +80,7 @@ const updateUser = async (req, res, next) => {
       .orFail(() => {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
       });
-    console.log(user);
+    // console.log(user);
     res.send(user);
   } catch (err) {
     // console.log(err);
