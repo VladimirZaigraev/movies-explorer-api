@@ -6,17 +6,17 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 module.exports = (req, res, next) => {
   // console.log(req.headers);
   // достаём авторизационный заголовок
-  const token = req.headers.authorization.replace('Bearer ', '');
-  console.log('auth token', token);
+  const token = req.headers.authorization;
+  // console.log('auth token', token);
   if (!token) {
-    return res.status(401).send({ message: 'Необходима авторизация' });
+    next(new UnauthorizedError('Ошибка авторизации - необходимо зарегестрироваться'));
   }
 
   let payload;
 
   try {
     // верифицируем токен
-    payload = jwt.verify(token, process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'dev-secret');
+    payload = jwt.verify(token.replace('Bearer ', ''), process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'dev-secret');
   } catch (err) {
     next(new UnauthorizedError('Необходима авторизация - не получилось верифицировать токен'));
   }
