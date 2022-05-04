@@ -1,6 +1,12 @@
 const User = require('../models/user');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
+const ConflictError = require('../errors/ConflictError');
+const {
+  userIdNotFoundErrorMessage,
+  emailConflictErrorMessage,
+  userUpdateErrorMessage,
+} = require('../config/textErrorMessage');
 
 // получение данных о пользователе
 const getUserMe = (req, res, next) => {
@@ -9,7 +15,7 @@ const getUserMe = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(`Пользователь c id: ${userId} не найден`);
+        throw new NotFoundError(userIdNotFoundErrorMessage);
       }
 
       res.send({ user });
@@ -20,7 +26,6 @@ const getUserMe = (req, res, next) => {
 // обновление пользователя
 const updateUser = async (req, res, next) => {
   try {
-    // console.log('updateUser', req.body);
     const { name, email } = req.body;
     const userId = req.user._id;
 
@@ -37,14 +42,16 @@ const updateUser = async (req, res, next) => {
       },
     )
       .orFail(() => {
-        throw new NotFoundError('Пользователь по указанному _id не найден.');
+        throw new NotFoundError(userIdNotFoundErrorMessage);
       });
     // console.log(user);
     res.send(user);
   } catch (err) {
     // console.log(err);
     if (err.name === 'ValidationError') {
-      next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
+      next(new ValidationError(userUpdateErrorMessage));
+    } else if (err.code === 11000) {
+      next(new ConflictError(emailConflictErrorMessage));
     } else {
       next(err);
     }

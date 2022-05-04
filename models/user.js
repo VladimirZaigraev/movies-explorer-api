@@ -4,6 +4,10 @@ const { Schema, model } = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const {
+  authNotValidMailLoginErrorMessage,
+  mailErrorMessage,
+} = require('../config/textErrorMessage');
 
 const userSchema = new Schema({
   name: {
@@ -18,7 +22,7 @@ const userSchema = new Schema({
     required: [true, 'Поле "email" должно быть заполнено'],
     validate: {
       validator: (v) => isEmail(v),
-      message: 'Неправильный формат почты',
+      message: mailErrorMessage,
     },
   },
   password: {
@@ -34,13 +38,13 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .then((user) => {
       if (!user) {
         // не нашёлся — отклоняем промис
-        return Promise.reject(new UnauthorizedError('Ошибка авторизации: неправильная почта или логин'));
+        return Promise.reject(new UnauthorizedError(authNotValidMailLoginErrorMessage));
       }
       // нашёлся — сравниваем хеши
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new UnauthorizedError('Ошибка авторизации: неправильная почта или логин'));
+            return Promise.reject(new UnauthorizedError(authNotValidMailLoginErrorMessage));
           }
           return user;
         });

@@ -5,10 +5,12 @@ const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const cors = require('cors');
-const { MONGO_DATA_BASE, PORT } = require('./config/constants');
+const { MONGO_DATA_BASE, PORT } = require('./config/config');
 const errorHandler = require('./middelwares/errorHandler');
 const { routes } = require('./routes/index');
-
+const {
+  attentionServerErrorMessage,
+} = require('./config/textErrorMessage');
 const {
   requestLogger,
   errorLogger,
@@ -32,7 +34,7 @@ app.use(cors({
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(attentionServerErrorMessage);
   }, 0);
 });
 

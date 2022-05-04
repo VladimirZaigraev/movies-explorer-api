@@ -1,9 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { SALT_ROUND, JWT_SECRET } = require('../config/constants');
+const { SALT_ROUND, JWT_SECRET } = require('../config/config');
 const ConflictError = require('../errors/ConflictError');
 const ValidationError = require('../errors/ValidationError');
+const {
+  emailConflictErrorMessage,
+  userCreateErrorMessage,
+} = require('../config/textErrorMessage');
 
 // создание пользователя
 const createUser = (req, res, next) => {
@@ -30,9 +34,9 @@ const createUser = (req, res, next) => {
         .catch((err) => {
           // console.log(err);
           if (err.name === 'ValidationError') {
-            next(new ValidationError('Переданы неккоретные данные'));
+            next(new ValidationError(userCreateErrorMessage));
           } else if (err.name === 'MongoServerError' && err.code === 11000) {
-            next(new ConflictError('Пользователь с такой почтой уже существует'));
+            next(new ConflictError(emailConflictErrorMessage));
           } else {
             next(err);
           }
@@ -48,7 +52,6 @@ const loginUser = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // создадим токен
-      console.log(JWT_SECRET);
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
       // вернём токен
       res.send({ token });

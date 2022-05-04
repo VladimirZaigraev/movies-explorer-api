@@ -53,7 +53,14 @@ const updateUserValidation = celebrate({
         'string.min': 'Минимальная длина поля "name" - 2',
         'string.max': 'Максимальная длина поля "name" - 30',
       }),
-    email: Joi.string().required().email(),
+    email: Joi.string().required().custom((value, helpers) => {
+      if (validator.isEmail(value)) {
+        return value;
+      }
+      return helpers.message('Невалидный email!');
+    }).message({
+      'any.required': 'Поле "email" должно быть заполнено',
+    }),
   }),
 });
 
