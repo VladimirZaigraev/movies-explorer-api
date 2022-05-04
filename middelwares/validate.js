@@ -53,14 +53,7 @@ const updateUserValidation = celebrate({
         'string.min': 'Минимальная длина поля "name" - 2',
         'string.max': 'Максимальная длина поля "name" - 30',
       }),
-    email: Joi.string().required().custom((value, helpers) => {
-      if (validator.isEmail(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный email!');
-    }).message({
-      'any.required': 'Поле "email" должно быть заполнено',
-    }),
+    email: Joi.string().required().email(),
   }),
 });
 
@@ -97,7 +90,7 @@ const createMovieValidation = celebrate({
 
 const movieIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    movieId: Joi.number(),
+    movieId: Joi.string().hex().length(24),
   }).unknown(true),
 });
 

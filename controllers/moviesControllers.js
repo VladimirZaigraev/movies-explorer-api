@@ -64,13 +64,12 @@ const deleteMovie = (req, res, next) => {
     })
     .then((movie) => {
       if (String(req.user._id) === String(movie.owner)) {
-        Movie.findByIdAndRemove(movie._id)
+        return movie.remove()
           .then(() => {
             res.send({ message: 'Фильм удален успешно!' });
           });
-      } else {
-        throw new ForbiddenError('Нет прав на удаление фильма');
       }
+      throw new ForbiddenError('Нет прав на удаление фильма');
     })
     .catch((err) => {
       // console.log(err)

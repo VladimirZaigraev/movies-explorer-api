@@ -5,24 +5,14 @@ const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const cors = require('cors');
-
-const { PORT = 3000 } = process.env;
+const { MONGO_DATA_BASE, PORT } = require('./config/constants');
 const errorHandler = require('./middelwares/errorHandler');
 const { routes } = require('./routes/index');
-const auth = require('./middelwares/auth');
-const {
-  createUserValidation,
-  loginValidation,
-} = require('./middelwares/validate');
+
 const {
   requestLogger,
   errorLogger,
 } = require('./middelwares/logger');
-
-const {
-  createUser,
-  loginUser,
-} = require('./controllers/userControllers');
 
 const app = express();
 
@@ -54,9 +44,7 @@ app.use((req, res, next) => {
 app.use(requestLogger); // логгер запросов
 
 // роуты
-app.post('/signup', createUserValidation, createUser);
-app.post('/signin', loginValidation, loginUser);
-app.use('/', auth, routes);// роуты с обязательной авторизацией
+app.use('/', routes);
 
 app.use(errorLogger); // логгер ошибок
 
@@ -68,14 +56,14 @@ app.use(errorHandler); // централизованный обработчик
 async function main() {
   try {
     console.log('Try to coonect to mongodb');
-    await mongoose.connect('mongodb://localhost:27017/movies', {
+    await mongoose.connect(MONGO_DATA_BASE, {
       useNewUrlParser: true,
     });
   } catch (err) {
     console.log('Error', err);
   }
 
-  console.log('Connected');
+  console.log(`Connected ${MONGO_DATA_BASE}`);
 
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
