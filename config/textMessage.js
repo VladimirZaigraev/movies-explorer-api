@@ -1,4 +1,3 @@
-// const OK_STATUS = 200;
 const pageNotFoundErrorMessage = 'Страницы не существует';
 const movieCreateErrorMessage = 'Переданы некорректные данные при добавлении фильма';
 const movieOwnerErrorMessage = 'Нет прав на удаление фильма';
@@ -17,7 +16,6 @@ const userCreateErrorMessage = 'Переданы некорректные дан
 const userIdNotFoundErrorMessage = 'Пользователь по указанному _id не найден';
 
 module.exports = {
-  // OK_STATUS,
   pageNotFoundErrorMessage,
   movieNotValidDataErrorMessage,
   movieCreateErrorMessage,

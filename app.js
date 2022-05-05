@@ -10,7 +10,7 @@ const errorHandler = require('./middelwares/errorHandler');
 const { routes } = require('./routes/index');
 const {
   attentionServerErrorMessage,
-} = require('./config/textErrorMessage');
+} = require('./config/textMessage');
 const {
   requestLogger,
   errorLogger,

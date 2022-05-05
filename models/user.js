@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable new-cap */
 const { Schema, model } = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
@@ -7,7 +5,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const {
   authNotValidMailLoginErrorMessage,
   mailErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 const userSchema = new Schema({
   name: {
@@ -32,7 +30,7 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function serchUser(email, password) {
   // попытаемся найти пользователя по почте
   return this.findOne({ email }).select('+password')
     .then((user) => {

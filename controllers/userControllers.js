@@ -6,7 +6,7 @@ const {
   userIdNotFoundErrorMessage,
   emailConflictErrorMessage,
   userUpdateErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 // получение данных о пользователе
 const getUserMe = (req, res, next) => {

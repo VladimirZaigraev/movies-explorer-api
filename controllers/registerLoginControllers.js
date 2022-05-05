@@ -7,7 +7,7 @@ const ValidationError = require('../errors/ValidationError');
 const {
   emailConflictErrorMessage,
   userCreateErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 // создание пользователя
 const createUser = (req, res, next) => {

@@ -7,7 +7,7 @@ const {
   movieIdErrorMessage,
   movieOwnerErrorMessage,
   movieNotValidDataErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 const getMovies = async (req, res, next) => {
   try {

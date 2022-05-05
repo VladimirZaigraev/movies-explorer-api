@@ -6,7 +6,7 @@ const NotFoundError = require('../errors/NotFoundError');
 const auth = require('../middelwares/auth');
 const {
   pageNotFoundErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 const routes = express.Router();
 

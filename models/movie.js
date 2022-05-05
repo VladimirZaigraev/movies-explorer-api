@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const isURL = require('validator/lib/isURL');
 const {
   urlErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 const movieSchema = new Schema({
   country: {

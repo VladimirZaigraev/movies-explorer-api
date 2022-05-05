@@ -5,7 +5,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const {
   authErrorMessage,
   notValidTokenErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 module.exports = (req, res, next) => {
   // console.log(req.headers);

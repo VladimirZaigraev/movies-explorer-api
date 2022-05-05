@@ -1,14 +1,10 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 const {
   serverErrorMessage,
-} = require('../config/textErrorMessage');
+} = require('../config/textMessage');
 
 const errorHandler = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
-
-  console.log(err.stack || err);
-
+  // console.log(err.stack || err);
   res
     .status(statusCode)
     .send({
@@ -16,6 +12,7 @@ const errorHandler = (err, req, res, next) => {
         ? serverErrorMessage
         : message,
     });
+  next();
 };
 
 module.exports = errorHandler;
