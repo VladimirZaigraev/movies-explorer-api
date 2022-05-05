@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -39,7 +38,7 @@ app.get('/crash-test', () => {
 });
 
 app.use((req, res, next) => {
-  console.log(req.method, req.path);
+  // console.log(req.method, req.path);
   next();
 });
 
@@ -55,21 +54,29 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use(errorHandler); // централизованный обработчик
 
-async function main() {
-  try {
-    console.log('Try to coonect to mongodb');
-    await mongoose.connect(MONGO_DATA_BASE, {
-      useNewUrlParser: true,
-    });
-  } catch (err) {
-    console.log('Error', err);
-  }
+// для работы в режиме разработки
+// async function main() {
+//   try {
+//     console.log('Try to coonect to mongodb');
+//     await mongoose.connect(MONGO_DATA_BASE, {
+//       useNewUrlParser: true,
+//     });
+//   } catch (err) {
+//     console.log('Error', err);
+//   }
 
-  console.log(`Connected ${MONGO_DATA_BASE}`);
+//   console.log(`Connected ${MONGO_DATA_BASE}`);
 
-  app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-  });
-}
+//   app.listen(PORT, () => {
+//     console.log(`App listening on port ${PORT}`);
+//   });
+// }
 
-main();
+// main();
+
+mongoose.connect(MONGO_DATA_BASE, {
+  useNewUrlParser: true,
+  autoIndex: true,
+});
+
+app.listen(PORT);
