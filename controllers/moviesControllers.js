@@ -11,7 +11,7 @@ const {
 
 const getMovies = async (req, res, next) => {
   try {
-    const movie = await Movie.find({});
+    const movie = await Movie.find({ owner: req.user._id });
 
     res.send(movie);
   } catch (err) {
@@ -64,6 +64,7 @@ const createMovie = async (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   const { _id } = req.params;
+  console.log(_id)
   Movie.findById(_id)
     .orFail(() => {
       throw new NotFoundError(movieIdErrorMessage);
