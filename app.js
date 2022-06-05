@@ -29,14 +29,14 @@ const options = {
     'http://zaigraev.movie.nomoredomains.work',
     'https://zaigraev.movie.nomoredomains.work',
   ],
-  methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 204,
   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
 
-app.use(cors(options));
+app.use("*", cors(options));
 
 // app.use(cors);
 
