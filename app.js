@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-const cors = require('cors');
+// const cors = require('cors');
 const { MONGO_DATA_BASE, PORT } = require('./config/config');
 const errorHandler = require('./middelwares/errorHandler');
 const { routes } = require('./routes/index');
+
+const cors = require('./cors/cors');
 const {
   attentionServerErrorMessage,
 } = require('./config/textMessage');
@@ -20,20 +22,23 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const options = {
-  origin: [
-    'http://localhost:3001',
-    'http://zaigraev.movie.nomoredomains.work',
-    'https://zaigraev.movie.nomoredomains.work',
-  ],
-  methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+// const options = {
+//   origin: [
+//     'http://localhost:3001',
+//     'http://zaigraev.movie.nomoredomains.work',
+//     'https://zaigraev.movie.nomoredomains.work',
+//   ],
+//   methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+//   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+//   credentials: true,
+// };
 
-app.use("*", cors(options));
+// app.use("*", cors(options));
+
+app.use(cors);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error(attentionServerErrorMessage);
