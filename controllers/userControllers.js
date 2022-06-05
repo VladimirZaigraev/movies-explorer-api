@@ -17,7 +17,6 @@ const getUserMe = (req, res, next) => {
       if (!user) {
         throw new NotFoundError(userIdNotFoundErrorMessage);
       }
-
       res.send({ user });
     })
     .catch(next);

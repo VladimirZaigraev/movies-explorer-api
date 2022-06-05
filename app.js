@@ -20,17 +20,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({
+const options = {
   origin: [
     'http://localhost:3001',
     'http://zaigraev.movie.nomoredomains.work',
     'https://zaigraev.movie.nomoredomains.work',
   ],
   methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization', 'Cookie'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
-}));
+};
 
+app.use("*", cors(options));
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error(attentionServerErrorMessage);
@@ -38,7 +41,7 @@ app.get('/crash-test', () => {
 });
 
 app.use((req, res, next) => {
-  // console.log(req.method, req.path);
+  console.log(req.method, req.path);
   next();
 });
 
@@ -55,28 +58,28 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(errorHandler); // централизованный обработчик
 
 // для работы в режиме разработки
-// async function main() {
-//   try {
-//     console.log('Try to coonect to mongodb');
-//     await mongoose.connect(MONGO_DATA_BASE, {
-//       useNewUrlParser: true,
-//     });
-//   } catch (err) {
-//     console.log('Error', err);
-//   }
+async function main() {
+  try {
+    console.log('Try to coonect to mongodb');
+    await mongoose.connect(MONGO_DATA_BASE, {
+      useNewUrlParser: true,
+    });
+  } catch (err) {
+    console.log('Error', err);
+  }
 
-//   console.log(`Connected ${MONGO_DATA_BASE}`);
+  console.log(`Connected ${MONGO_DATA_BASE}`);
 
-//   app.listen(PORT, () => {
-//     console.log(`App listening on port ${PORT}`);
-//   });
-// }
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+  });
+}
 
-// main();
+main();
 
-mongoose.connect(MONGO_DATA_BASE, {
-  useNewUrlParser: true,
-  autoIndex: true,
-});
+// mongoose.connect(MONGO_DATA_BASE, {
+//   useNewUrlParser: true,
+//   autoIndex: true,
+// });
 
-app.listen(PORT);
+// app.listen(PORT);

@@ -49,6 +49,7 @@ const loginUser = (req, res, next) => {
   // получаем данные
   const { email, password } = req.body;
   // ищем пользователя в базе по email
+  // console.log(req);
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // создадим токен
