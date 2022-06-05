@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use("*", cors(options));
 
-app.use(cors);
+// app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
