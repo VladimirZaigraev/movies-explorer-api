@@ -1,4 +1,10 @@
-const { allowedCors } = require('../config/allowedCors');
+// const { allowedCors } = require('../config/allowedCors');
+
+const allowedCors = [
+  'http://zaigraev.movie.nomoredomains.work',
+  'https://zaigraev.movie.nomoredomains.work',
+  'http://localhost:3001',
+]
 
 module.exports = (req, res, next) => {
   const { origin } = req.headers;
