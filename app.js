@@ -8,7 +8,6 @@ const { MONGO_DATA_BASE, PORT } = require('./config/config');
 const errorHandler = require('./middelwares/errorHandler');
 const { routes } = require('./routes/index');
 
-// const cors = require('./cors/cors');
 const {
   attentionServerErrorMessage,
 } = require('./config/textMessage');
@@ -37,8 +36,6 @@ const options = {
 };
 
 app.use("*", cors(options));
-
-// app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
