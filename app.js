@@ -22,8 +22,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 const options = {
-  origin: '*',
+  origin: [
+    'http://localhost:3001',
+    'http://zaigraev.movie.nomoredomains.work',
+    'https://zaigraev.movie.nomoredomains.work',
+  ],
   methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 204,
