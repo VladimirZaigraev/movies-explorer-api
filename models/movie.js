@@ -1,5 +1,8 @@
 const { Schema, model } = require('mongoose');
 const isURL = require('validator/lib/isURL');
+const {
+  urlErrorMessage,
+} = require('../config/textMessage');
 
 const movieSchema = new Schema({
   country: {
@@ -27,7 +30,7 @@ const movieSchema = new Schema({
     required: [true, 'Поле "image" должно быть заполнено'],
     validate: {
       validator: (v) => isURL(v),
-      message: () => 'Некорректная ссылка постера',
+      message: () => urlErrorMessage,
     },
   },
   trailerLink: {
@@ -35,7 +38,7 @@ const movieSchema = new Schema({
     required: [true, 'Поле "trailer" должно быть заполнено'],
     validate: {
       validator: (v) => isURL(v),
-      message: () => 'Некорректная ссылка трейлера',
+      message: () => urlErrorMessage,
     },
   },
   thumbnail: {
@@ -43,11 +46,11 @@ const movieSchema = new Schema({
     required: [true, 'Поле "thumbnail" должно быть заполнено'],
     validate: {
       validator: (v) => isURL(v),
-      message: () => 'Некорректная ссылка мини постера',
+      message: () => urlErrorMessage,
     },
   },
   owner: {
-    type: String, // ??
+    type: String,
     required: [true, 'Поле "owner" должно быть заполнено'],
     ref: 'user',
   },

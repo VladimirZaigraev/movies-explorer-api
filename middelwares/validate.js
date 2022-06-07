@@ -97,7 +97,7 @@ const createMovieValidation = celebrate({
 
 const movieIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    movieId: Joi.number(),
+    movieId: Joi.string().hex().length(24),
   }).unknown(true),
 });
 

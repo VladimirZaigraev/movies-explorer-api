@@ -1,7 +1,11 @@
 // middlewares/auth.js
 const jwt = require('jsonwebtoken');
-
+const { JWT_SECRET } = require('../config/config');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const {
+  authErrorMessage,
+  notValidTokenErrorMessage,
+} = require('../config/textMessage');
 
 module.exports = (req, res, next) => {
   // console.log(req.headers);
@@ -9,16 +13,16 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization;
   // console.log('auth token', token);
   if (!token) {
-    next(new UnauthorizedError('Ошибка авторизации - необходимо зарегестрироваться'));
+    next(new UnauthorizedError(authErrorMessage));
   }
 
   let payload;
 
   try {
     // верифицируем токен
-    payload = jwt.verify(token.replace('Bearer ', ''), process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'dev-secret');
+    payload = jwt.verify(token.replace('Bearer ', ''), JWT_SECRET);
   } catch (err) {
-    next(new UnauthorizedError('Необходима авторизация - не получилось верифицировать токен'));
+    next(new UnauthorizedError(notValidTokenErrorMessage));
   }
 
   req.user = payload; // записываем пейлоуд в объект запроса

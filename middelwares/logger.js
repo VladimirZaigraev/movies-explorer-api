@@ -1,5 +1,4 @@
 // middlewares/logger.js
-
 const winston = require('winston');
 const expressWinston = require('express-winston');
 

@@ -1,9 +1,11 @@
-/* eslint-disable func-names */
-/* eslint-disable new-cap */
 const { Schema, model } = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const {
+  authNotValidMailLoginErrorMessage,
+  mailErrorMessage,
+} = require('../config/textMessage');
 
 const userSchema = new Schema({
   name: {
@@ -18,7 +20,7 @@ const userSchema = new Schema({
     required: [true, 'Поле "email" должно быть заполнено'],
     validate: {
       validator: (v) => isEmail(v),
-      message: 'Неправильный формат почты',
+      message: mailErrorMessage,
     },
   },
   password: {
@@ -28,19 +30,19 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function serchUser(email, password) {
   // попытаемся найти пользователя по почте
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         // не нашёлся — отклоняем промис
-        return Promise.reject(new UnauthorizedError('Ошибка авторизации: неправильная почта или логин'));
+        return Promise.reject(new UnauthorizedError(authNotValidMailLoginErrorMessage));
       }
       // нашёлся — сравниваем хеши
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new UnauthorizedError('Ошибка авторизации: неправильная почта или логин'));
+            return Promise.reject(new UnauthorizedError(authNotValidMailLoginErrorMessage));
           }
           return user;
         });
